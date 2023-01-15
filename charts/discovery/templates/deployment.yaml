@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "discovery.fullname" . }}
+  labels:
+    {{- include "discovery.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "discovery.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "discovery.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: {{ .Values.serviceMonitor.name }}
+              containerPort: {{ .Values.serviceMonitor.port }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: LOGLEVEL
+              value: {{ .Values.discovery.loglevel }}
+            - name: PORTS
+              value: {{ .Values.discovery.ports }}
+            - name: WORKERS
+              value: {{ .Values.discovery.workers }}
+            - name: TIMEOUT
+              value: {{ .Values.discovery.timeout }}
+            - name: CIDRS
+              value: {{ .Values.discovery.cidrs }}
+            - name: PGUSER
+              value: {{ .Values.discovery.postgresql.user }}
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgresql.auth.existingSecret }}
+                  key: {{ .Values.postgresql.auth.userPasswordKey }}
+            - name: PGHOST
+              value: {{ .Values.discovery.postgresql.host }}
+            - name: PGDATABASE
+              value: {{ .Values.discovery.postgresql.database }}
+            - name: PGPORT
+              value: {{ default 5432 .Values.discovery.postgresql.port }}
+            - name: PGSSLMODE
+              value: {{ default "disable" .Values.discovery.postgresql.sslmode }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
