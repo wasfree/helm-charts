@@ -38,30 +38,30 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
             - name: LOGLEVEL
-              value: {{ .Values.discovery.loglevel }}
+              value: {{ .Values.discovery.loglevel | quote }}
             - name: PORTS
-              value: {{ .Values.discovery.ports }}
+              value: {{ .Values.discovery.ports | quote }}
             - name: WORKERS
-              value: {{ .Values.discovery.workers }}
+              value: {{ .Values.discovery.workers | quote }}
             - name: TIMEOUT
-              value: {{ .Values.discovery.timeout }}
+              value: {{ .Values.discovery.timeout | quote }}
             - name: CIDRS
-              value: {{ .Values.discovery.cidrs }}
+              value: {{ .Values.discovery.cidrs | quote }}
             - name: PGUSER
-              value: {{ .Values.discovery.postgresql.user }}
+              value: {{ .Values.discovery.postgresql.user | quote }}
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.postgresql.auth.existingSecret }}
-                  key: {{ .Values.postgresql.auth.userPasswordKey }}
+                  key: {{ .Values.postgresql.auth.secretKeys.userPasswordKey }}
             - name: PGHOST
-              value: {{ .Values.discovery.postgresql.host }}
+              value: {{ .Values.discovery.postgresql.host | quote }}
             - name: PGDATABASE
-              value: {{ .Values.discovery.postgresql.database }}
+              value: {{ .Values.discovery.postgresql.database | quote  }}
             - name: PGPORT
-              value: {{ default 5432 .Values.discovery.postgresql.port }}
+              value: {{ default 5432 .Values.discovery.postgresql.port | quote }}
             - name: PGSSLMODE
-              value: {{ default "disable" .Values.discovery.postgresql.sslmode }}
+              value: {{ default "disable" .Values.discovery.postgresql.sslmode | quote }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
