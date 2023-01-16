@@ -13,7 +13,7 @@ spec:
     scrapeTimeout: {{ .Values.serviceMonitor.scrapeTimeout }}
     {{- end }}
     honorLabels: true
-    port: {{ .Values.service.metrics.name }}
+    port: {{ .Values.serviceMonitor.name }}
     path: {{ .Values.serviceMonitor.path }}
     scheme: {{ .Values.serviceMonitor.scheme }}
   jobLabel: "{{ .Release.Name }}"
