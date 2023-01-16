@@ -3,6 +3,21 @@ entries:
   discovery:
   - apiVersion: v2
     appVersion: 0.1.14
+    created: "2023-01-16T11:06:06.704000734Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.x.x
+    description: A Helm chart for Kubernetes
+    digest: 45366a726040cc5b3c8d662d68a1757ae230f162b8c93d201c514b2fda723c8e
+    name: discovery
+    type: application
+    urls:
+    - https://github.com/wasfree/helm-charts/releases/download/discovery-0.1.2/discovery-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 0.1.14
     created: "2023-01-15T19:17:00.81207496Z"
     dependencies:
     - condition: postgresql.enabled
@@ -31,4 +46,4 @@ entries:
     urls:
     - https://github.com/wasfree/helm-charts/releases/download/discovery-0.1.0/discovery-0.1.0.tgz
     version: 0.1.0
-generated: "2023-01-15T19:17:00.81208416Z"
+generated: "2023-01-16T11:06:06.704018934Z"
