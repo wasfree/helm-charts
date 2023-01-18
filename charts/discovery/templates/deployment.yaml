@@ -62,6 +62,12 @@ spec:
               value: {{ default 5432 .Values.discovery.postgresql.port | quote }}
             - name: PGSSLMODE
               value: {{ default "disable" .Values.discovery.postgresql.sslmode | quote }}
+            - name: PGMAXOPENCONNS
+              value: {{ default "100" .Values.discovery.postgresql.maxOpenConns | quote }}
+            - name: PGMAXIDLECONNS
+              value: {{ default "25" .Values.discovery.postgresql.maxIdleConns | quote }}
+            - name: PGCONNMAXLIFETIME
+              value: {{ default "1h" .Values.discovery.postgresql.connMaxLifetime | quote }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

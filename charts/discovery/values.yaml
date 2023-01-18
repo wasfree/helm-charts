@@ -51,6 +51,9 @@ discovery:
     database: "discovery"
     user: "pguser"
     host: "postgres"
+    # connMaxLifetime: "1h"
+    # maxIdleConns: "25"
+    # maxOpenConns: "100"
 
 postgresql:
   enabled: true
