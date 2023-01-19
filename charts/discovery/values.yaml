@@ -46,7 +46,8 @@ discovery:
   ports: "80,443"
   workers: 10
   timeout: 10s
-  cidrs: ""
+  # Path to CIDR
+  # cidrsFilepath: ""
   postgresql:
     database: "discovery"
     user: "pguser"
