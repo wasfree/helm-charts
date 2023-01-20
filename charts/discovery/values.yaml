@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/wasfree/discovery
   pullPolicy: IfNotPresent
-  tag: v0.1.14
+  tag: v0.1.23
 
 imagePullSecrets: []
 nameOverride: ""
@@ -46,8 +46,7 @@ discovery:
   ports: "80,443"
   workers: 10
   timeout: 10s
-  # Path to CIDR
-  # cidrsFilepath: ""
+  cidrsFilepath: "./data/test.txt"
   postgresql:
     database: "discovery"
     user: "pguser"
@@ -55,6 +54,15 @@ discovery:
     # connMaxLifetime: "1h"
     # maxIdleConns: "25"
     # maxOpenConns: "100"
+  externalFiles:
+    enabled: false
+    # cidrs:
+    #   test.txt:
+    #     - 1.0.0.0/24
+    #     - 1.0.1.0/24
+    #     - 1.0.2.0/23
+    #     - 1.0.4.0/22
+    #     - 1.0.8.0/21
 
 postgresql:
   enabled: true

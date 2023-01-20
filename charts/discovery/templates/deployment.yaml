@@ -68,6 +68,20 @@ spec:
               value: {{ default "25" .Values.discovery.postgresql.maxIdleConns | quote }}
             - name: PGCONNMAXLIFETIME
               value: {{ default "1h" .Values.discovery.postgresql.connMaxLifetime | quote }}
+          volumeMounts:
+            {{- if .Values.discovery.externalFiles.enabled }}
+            {{- range $fileName, $_ := .Values.discovery.externalFiles.cidrs }}
+            - name: cidrs
+              mountPath: /apps/data/{{ $fileName }}
+              subPath: {{ $fileName }}
+            {{- end }}
+            {{- end }}
+      volumes:
+        {{- if .Values.discovery.externalFiles.enabled }}
+        - name: cidrs
+          configMap:
+            name: "{{ include "discovery.fullname" . }}-cidrs"
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

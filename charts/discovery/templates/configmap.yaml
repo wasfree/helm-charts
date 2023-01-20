@@ -1,0 +1,15 @@
+{{- if .Values.discovery.externalFiles.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ include "discovery.fullname" . }}-cidrs"
+  labels:
+    {{- include "discovery.labels" . | nindent 4 }}
+data:
+{{- range $fileName, $cidrs := .Values.discovery.externalFiles.cidrs }}
+  {{ $fileName }}: |-
+  {{- range $cidr := $cidrs }}
+    {{ $cidr }}
+{{- end }}
+{{- end }}
+{{- end }}
