@@ -45,6 +45,8 @@ spec:
               value: {{ .Values.discovery.workers | quote }}
             - name: TIMEOUT
               value: {{ .Values.discovery.timeout | quote }}
+            - name: RESCAN
+              value: {{ .Values.discovery.rescan | quote }}
             - name: CIDRS_FILEPATH
               value: {{ required "CIDR filepath is required." .Values.discovery.cidrsFilepath | quote }}
             - name: PGUSER

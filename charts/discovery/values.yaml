@@ -46,6 +46,7 @@ discovery:
   ports: "80,443"
   workers: 10
   timeout: 10s
+  rescan: 0s
   cidrsFilepath: "./data/test.txt"
   postgresql:
     database: "discovery"
